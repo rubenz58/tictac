@@ -1,1 +1,50 @@
 /* Your code here */
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+#parent {
+    border: 5px solid rgb(255, 0, 0);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    /* background-color: dodgerblue; */
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+#parent > div {
+    /* background-color: #f1f1f1; */
+    align-items: center;
+    border: 5px solid black;
+    /* padding: 20px; */
+    aspect-ratio : 1 / 1;
+    /* width:70%; */
+    /* height: 70px; */
+    line-height: 70px;
+    font-size: 30px;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    box-sizing: border-box;
+}
+
+#bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button {
+
+    margin: 30px;
+    height: 100px;
+    width: 200px;
+    /* margin: auto; */
+}
