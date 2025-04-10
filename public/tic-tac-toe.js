@@ -1,6 +1,10 @@
 // Your code here
 import Board from "./board.js";
 
+// An additional step would be
+// When giving up -> reloading -> instead of showing the previous winner
+// it says, status in progress. Minor detail.
+
 let board = new Board(); // creates a new game board
 const cachedXImage = new Image();
 const cachedOImage = new Image();
@@ -44,7 +48,7 @@ window.addEventListener('DOMContentLoaded', event => {
         // console.log("click: " + event.target.id);
         if (!board.gameOver) {
             console.log("not over");
-            boardState();
+            // boardState();
 
             // 1. Parse target data for row and col
             let id = event.target.dataset.id;
@@ -154,7 +158,7 @@ window.addEventListener('DOMContentLoaded', event => {
             
             board.gameOver = true;
 
-            // saveGameState();
+            saveGameState();
 
         }
 
@@ -188,18 +192,48 @@ function loadGameState() {
 
     // console.log(document.cookie);
     let cookie_info = document.cookie.split(";");
+    console.log("loading");
     console.log(cookie_info);
 
     // Check if cookie exists
     if (cookie_info[1]) {
-        // Retrieving information from cookie
-        const game_over_retrieved = cookie_info[0].split("=")[1];
-        const player_turn_retrieved = cookie_info[1].split("=")[1];
-        const moves_remaining_retrieved = cookie_info[2].split("=")[1];
-        const board_state_retrieved = cookie_info[3].split("=")[1];
+
+        // Cookies are not saving in a consistent order. So have to parse to make
+        // sure I'm assigning the correct elements at each step.
+        console.log("Have game state to load");
+
+        let player_turn_retrieved;
+        let game_over_retrieved;
+        let moves_remaining_retrieved;
+        let board_state_retrieved;
+
+
+        // Assign the correct variables.
+        for (let i = 0; i < 4; i++) {
+            let key = cookie_info[i].split("=")[0].trim();
+
+            if (key === "playerTurn") {
+                player_turn_retrieved = cookie_info[i].split("=")[1];
+                console.log("playerTurn: " + player_turn_retrieved);
+
+            } else if (key === "gameOver") {
+                game_over_retrieved = cookie_info[i].split("=")[1];
+                console.log("gameOver: " + game_over_retrieved);
+
+            } else if (key === "movesRemaining") {
+                moves_remaining_retrieved = cookie_info[i].split("=")[1];
+                console.log("moveRemaining: " + moves_remaining_retrieved);
+
+            } else if (key === "boardState") {
+                board_state_retrieved = cookie_info[i].split("=")[1];
+                console.log("boardState: " + board_state_retrieved);
+            }
+        }
+
 
         // Set the board variables
-        if (game_over_retrieved === "true") {
+        if (game_over_retrieved == "true") {
+            // console.log("Setting the game over variable to true");
             board.gameOver = true;
         } else {board.gameOver = false}
 
@@ -234,8 +268,11 @@ function loadGameState() {
             }
         }
 
-        console.log("loaded");
+    } else {
+
     }
+
+    console.log("done loading");
 
 }
 
